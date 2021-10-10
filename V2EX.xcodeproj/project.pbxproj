@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2992101B271326A300A5E8F7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2992101D271326A300A5E8F7 /* Localizable.strings */; };
+		2992102127132AB000A5E8F7 /* TopicTabList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2992102027132AB000A5E8F7 /* TopicTabList.swift */; };
 		29D864D627131C9C00CE8DC6 /* V2EXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864D527131C9C00CE8DC6 /* V2EXApp.swift */; };
 		29D864D827131C9C00CE8DC6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864D727131C9C00CE8DC6 /* ContentView.swift */; };
 		29D864DA27131C9D00CE8DC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29D864D927131C9D00CE8DC6 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		2992101C271326A300A5E8F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2992101E271326A500A5E8F7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		2992102027132AB000A5E8F7 /* TopicTabList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicTabList.swift; sourceTree = "<group>"; };
 		29D864D227131C9C00CE8DC6 /* V2EX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = V2EX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29D864D527131C9C00CE8DC6 /* V2EXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2EXApp.swift; sourceTree = "<group>"; };
 		29D864D727131C9C00CE8DC6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -78,6 +80,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2992101F27132A9500A5E8F7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2992102027132AB000A5E8F7 /* TopicTabList.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		29D864C927131C9C00CE8DC6 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 			children = (
 				29D864D527131C9C00CE8DC6 /* V2EXApp.swift */,
 				29D864D727131C9C00CE8DC6 /* ContentView.swift */,
+				2992101F27132A9500A5E8F7 /* Views */,
 				29D864D927131C9D00CE8DC6 /* Assets.xcassets */,
 				29D864DE27131C9D00CE8DC6 /* Persistence.swift */,
 				29D864E027131C9D00CE8DC6 /* V2EX.xcdatamodeld */,
@@ -269,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2992102127132AB000A5E8F7 /* TopicTabList.swift in Sources */,
 				29D864DF27131C9D00CE8DC6 /* Persistence.swift in Sources */,
 				29D864D827131C9C00CE8DC6 /* ContentView.swift in Sources */,
 				29D864E227131C9D00CE8DC6 /* V2EX.xcdatamodeld in Sources */,

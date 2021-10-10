@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            Text("Topic Tab")
+            TopicTabList()
                 .tabItem {
                     Label("Topic", systemImage: "captions.bubble.fill")
                 }
