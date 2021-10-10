@@ -17,7 +17,9 @@ struct TabDetailView: View {
     var body: some View {
         List {
             ForEach(fetcher.topics) { topic in
-                Text(topic.title)
+                NavigationLink(topic.title) {
+                    TopicDetailView(topic: topic)
+                }
             }
         }
         .listStyle(InsetListStyle())
