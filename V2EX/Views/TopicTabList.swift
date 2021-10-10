@@ -12,9 +12,11 @@ struct TopicTabList: View {
         NavigationView {
             List {
                 // TODO: Fetch topic tabs
-                ForEach(topicTabs, id: \.self) { topicTab in
-                    NavigationLink(topicTab) {
-                        Text(topicTab)
+                ForEach(topicTabs, id: \.self) { tab in
+                    NavigationLink(tab) {
+                        TabDetailView(topicTab: tab)
+                            .navigationTitle(tab)
+                            .navigationBarTitleDisplayMode(.inline)
                     }
                 }
             }
