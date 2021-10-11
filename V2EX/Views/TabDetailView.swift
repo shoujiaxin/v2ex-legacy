@@ -42,6 +42,6 @@ struct TabDetailView: View {
 
 struct TabDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        TabDetailView(topicTab: "all")
+        TabDetailView(topicTab: "apple")
     }
 }

@@ -38,10 +38,8 @@ struct TopicDetailView: View {
 
     var content: some View {
         HStack {
-            if let content = topic.renderedCcontent {
-                Text(AttributedString(content))
-            } else {
-                Text(topic.content)
+            if let content = topic.content {
+                Text(content)
             }
 
             Spacer()
@@ -57,12 +55,7 @@ struct TopicDetailView: View {
 
 struct TopicDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let topic = Topic(content: """
-        刚刚没事查了下 U2720 的保修期，发现 9 月底发布 Mac 版 Dell Display Manager 了，还支持 M1，试用了一下真不错。
-        还有固件更新，更新了 20 多分钟，我去刷牙了回来黑屏了半天还以为坏了，更新完了也没恢复，最后拔电源了事。OSD 菜单里没有肉眼可见的更新。
-
-        最后，用 U2720 的朋友，可以说说都是怎么设置的吗？现在用标准模式，RGB，描述文件用的 DCI-P3，色彩还是不太满意（与 Mac 屏幕有点差距）。还有 SmartHDR 这玩意一开就色偏，是不是就没用？
-        """, id: 806_920, numberOfReplies: 10, title: "Dell Display Manager 支持 Mac 啦")
+        let topic = Topic(id: 707_378, numberOfReplies: 31, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？")
         TopicDetailView(topic: topic)
     }
 }
