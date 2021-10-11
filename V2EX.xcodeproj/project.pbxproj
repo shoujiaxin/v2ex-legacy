@@ -22,6 +22,7 @@
 		29D864EC27131C9D00CE8DC6 /* V2EXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864EB27131C9D00CE8DC6 /* V2EXTests.swift */; };
 		29D864F627131C9D00CE8DC6 /* V2EXUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864F527131C9D00CE8DC6 /* V2EXUITests.swift */; };
 		29D864F827131C9D00CE8DC6 /* V2EXUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864F727131C9D00CE8DC6 /* V2EXUITestsLaunchTests.swift */; };
+		6B27645D2713D58300A67F53 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 6B27645C2713D58300A67F53 /* SwiftSoup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B27645D2713D58300A67F53 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +194,9 @@
 			dependencies = (
 			);
 			name = V2EX;
+			packageProductDependencies = (
+				6B27645C2713D58300A67F53 /* SwiftSoup */,
+			);
 			productName = V2EX;
 			productReference = 29D864D227131C9C00CE8DC6 /* V2EX.app */;
 			productType = "com.apple.product-type.application";
@@ -265,6 +270,9 @@
 				"zh-Hans",
 			);
 			mainGroup = 29D864C927131C9C00CE8DC6;
+			packageReferences = (
+				6B27645B2713D58300A67F53 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			productRefGroup = 29D864D327131C9C00CE8DC6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -677,6 +685,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6B27645B2713D58300A67F53 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6B27645C2713D58300A67F53 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B27645B2713D58300A67F53 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		29D864E027131C9D00CE8DC6 /* V2EX.xcdatamodeld */ = {
