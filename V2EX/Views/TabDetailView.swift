@@ -15,6 +15,7 @@ struct TabDetailView: View {
     }
 
     var body: some View {
+        // FIXME: List has confit with animations, change to ScrollView & LazyVStack
         List {
             ForEach(fetcher.topics) { topic in
                 NavigationLink(destination: TopicDetailView(of: topic)) {

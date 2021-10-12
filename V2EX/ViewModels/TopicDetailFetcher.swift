@@ -34,11 +34,11 @@ class TopicDetailFetcher: ObservableObject {
         cancellable?.cancel()
     }
 
-    func fetch() {
+    func fetch(with session: URLSession = .shared) {
         cancel()
 
         isFetching = true
-        cancellable = URLSession.shared.dataTaskPublisher(for: url)
+        cancellable = session.dataTaskPublisher(for: url)
             .receive(on: DispatchQueue.main)
             .map(\.data)
             .map { String(data: $0, encoding: .utf8) }
@@ -74,10 +74,8 @@ class TopicDetailFetcher: ObservableObject {
 
     private func parseReplies(_ document: Document) {
         do {
-            try document.select(".reply_content").forEach { [weak self] item in
-                try withAnimation(.easeInOut) {
-                    try self?.replies.append(item.text())
-                }
+            try withAnimation(.easeInOut) {
+                self.replies = try document.select(".reply_content").map { try $0.text() }
             }
         } catch {
             print(error)

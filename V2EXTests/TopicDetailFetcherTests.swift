@@ -1,8 +1,8 @@
 //
-//  TabDetailFetcherTests.swift
+//  TopicDetailFetcherTests.swift
 //  V2EXTests
 //
-//  Created by Jiaxin Shou on 2021/10/12.
+//  Created by Jiaxin Shou on 2021/10/13.
 //
 
 @testable import V2EX
@@ -10,8 +10,8 @@
 import Combine
 import XCTest
 
-class TabDetailFetcherTests: XCTestCase {
-    private let fetcher = TabDetailFetcher(topicTab: "apple")
+class TopicDetailFetcherTests: XCTestCase {
+    private var fetcher: TopicDetailFetcher!
 
     private var session: URLSession!
 
@@ -19,6 +19,9 @@ class TabDetailFetcherTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+
+        let topic = Topic(id: 707_378, numberOfReplies: 31, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？")
+        fetcher = TopicDetailFetcher(topic: topic)
 
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
@@ -40,32 +43,38 @@ class TabDetailFetcherTests: XCTestCase {
 
     func testFetch() throws {
         MockURLProtocol.requestHandler = { request in
-            let data = try! Data(contentsOf: Bundle(for: type(of: self)).url(forResource: "TabDetailFetcherTests", withExtension: "html")!)
+            let data = try! Data(contentsOf: Bundle(for: type(of: self)).url(forResource: "TopicDetailFetcherTests", withExtension: "html")!)
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)
             return (data, response, nil)
         }
 
         fetcher.fetch(with: session)
 
-        let topicsExpectation = expectation(description: "TabDetailFetcherTests.testFetch.topics")
-        fetcher.$topics
+        let topicsExpectation = expectation(description: "TopicDetailFetcherTests.testFetch.topics")
+        fetcher.$topic
             .collect(2)
-            .sink { topicsArray in
-                XCTAssertEqual(topicsArray.first?.count, 0)
-                XCTAssertEqual(topicsArray.last?.count, 49)
-
-                let topic = topicsArray.last?.first
-                XCTAssertNotNil(topic)
-                XCTAssertNil(topic?.content)
-                XCTAssertEqual(topic?.id, 807_369)
-                XCTAssertEqual(topic?.numberOfReplies, 25)
-                XCTAssertEqual(topic?.title, "国庆节最后一天一千公里电动汽车长途驾驶体验")
-
+            .sink { topics in
+                XCTAssertNotNil(topics.last?.content)
                 topicsExpectation.fulfill()
             }
             .store(in: &cancellables)
 
-        let isFetchingExpectation = expectation(description: "TabDetailFetcherTests.testFetch.isFetching")
+        let repliesExpectation = expectation(description: "TopicDetailFetcherTests.testFetch.replies")
+        fetcher.$replies
+            .collect(2)
+            .sink { repliesArray in
+                XCTAssertEqual(repliesArray.first?.count, 0)
+                XCTAssertEqual(repliesArray.last?.count, 31)
+
+                let reply = repliesArray.last?.first
+                XCTAssertNotNil(reply)
+                XCTAssertEqual(reply, "官网有对比功能。动动手买东西就 ok")
+
+                repliesExpectation.fulfill()
+            }
+            .store(in: &cancellables)
+
+        let isFetchingExpectation = expectation(description: "TopicDetailFetcherTests.testFetch.isFetching")
         fetcher.$isFetching
             .collect(2)
             .sink { states in
