@@ -19,9 +19,9 @@ struct TabDetailView: View {
             ForEach(fetcher.topics) { topic in
                 NavigationLink(destination: TopicDetailView(of: topic)) {
                     topicRow(of: topic)
-                        .transition(.slide)
                 }
             }
+            .transition(.slide)
         }
         .listStyle(InsetListStyle())
         .toolbar {

@@ -32,11 +32,11 @@ class TabDetailFetcher: ObservableObject {
         cancellable?.cancel()
     }
 
-    func fetch() {
+    func fetch(with session: URLSession = .shared) {
         cancel()
 
         isFetching = true
-        cancellable = URLSession.shared.dataTaskPublisher(for: url)
+        cancellable = session.dataTaskPublisher(for: url)
             .receive(on: DispatchQueue.main)
             .map(\.data)
             .map { String(data: $0, encoding: .utf8) }
@@ -60,11 +60,9 @@ class TabDetailFetcher: ObservableObject {
     private func parse(_ html: String) {
         do {
             let document = try SwiftSoup.parse(html)
-            try document.select(".cell.item").forEach { item in
-                if let topic = try self.parseTopicInfo(item) {
-                    withAnimation(.easeInOut) {
-                        self.topics.append(topic)
-                    }
+            try withAnimation(.easeInOut) {
+                self.topics = try document.select(".cell.item").compactMap { [weak self] item in
+                    try self?.parseTopicInfo(item)
                 }
             }
         } catch {
