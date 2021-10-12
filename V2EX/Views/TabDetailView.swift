@@ -17,8 +17,8 @@ struct TabDetailView: View {
     var body: some View {
         List {
             ForEach(fetcher.topics) { topic in
-                NavigationLink(topic.title) {
-                    TopicDetailView(topic: topic)
+                NavigationLink(destination: TopicDetailView(topic: topic)) {
+                    topicRow(of: topic)
                 }
             }
         }
@@ -34,10 +34,35 @@ struct TabDetailView: View {
                 }
             }
         }
-        .onAppear {
-            fetcher.fetch()
+    }
+
+    // MARK: - Views
+
+    @ViewBuilder
+    func topicRow(of topic: Topic) -> some View {
+        HStack {
+            Text(topic.title)
+
+            Spacer()
+
+            Text(String(topic.numberOfReplies))
+                .font(.caption)
+                .fontWeight(.black)
+                .padding(.horizontal, capsuledTextHorizontalPadding)
+                .padding(.vertical, capsuledTextVerticalPadding)
+                .background {
+                    Capsule()
+                        .foregroundColor(.gray)
+                        .opacity(capsuledTextBackgroundOpacity)
+                }
         }
     }
+
+    // MARK: Constants
+
+    private let capsuledTextHorizontalPadding: CGFloat = 8
+    private let capsuledTextVerticalPadding: CGFloat = 2
+    private let capsuledTextBackgroundOpacity: Double = 0.6
 }
 
 struct TabDetailView_Previews: PreviewProvider {

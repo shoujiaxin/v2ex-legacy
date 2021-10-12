@@ -23,6 +23,8 @@ class TabDetailFetcher: ObservableObject {
         var components = URLComponents(string: Self.baseURL)!
         components.queryItems = [URLQueryItem(name: "tab", value: topicTab)]
         url = components.url!
+
+        fetch()
     }
 
     func cancel() {
