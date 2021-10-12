@@ -19,6 +19,7 @@ struct TabDetailView: View {
             ForEach(fetcher.topics) { topic in
                 NavigationLink(destination: TopicDetailView(of: topic)) {
                     topicRow(of: topic)
+                        .transition(.slide)
                 }
             }
         }
@@ -28,9 +29,10 @@ struct TabDetailView: View {
                 if fetcher.isFetching {
                     ProgressView()
                 } else {
-                    Button(action: fetcher.fetch) {
-                        Image(systemName: "arrow.clockwise")
-                    }
+                    // FIXME: Duplicate results
+//                    Button(action: fetcher.fetch) {
+//                        Image(systemName: "arrow.clockwise")
+//                    }
                 }
             }
         }
@@ -47,7 +49,8 @@ struct TabDetailView: View {
 
             Text(String(topic.numberOfReplies))
                 .font(.caption)
-                .fontWeight(.black)
+                .fontWeight(.bold)
+                .foregroundColor(.secondary)
                 .padding(.horizontal, capsuledTextHorizontalPadding)
                 .padding(.vertical, capsuledTextVerticalPadding)
                 .background {
@@ -62,7 +65,7 @@ struct TabDetailView: View {
 
     private let capsuledTextHorizontalPadding: CGFloat = 8
     private let capsuledTextVerticalPadding: CGFloat = 2
-    private let capsuledTextBackgroundOpacity: Double = 0.6
+    private let capsuledTextBackgroundOpacity: Double = 0.2
 }
 
 struct TabDetailView_Previews: PreviewProvider {

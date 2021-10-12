@@ -22,14 +22,21 @@ struct TopicDetailView: View {
 
             content
 
-            Divider()
-
-            Text(String(fetcher.topic.numberOfReplies))
-                .font(.footnote)
-
-            Divider()
+            numberOfReplies
 
             replies
+        }
+        .toolbar {
+            ToolbarItem {
+                if fetcher.isFetching {
+                    ProgressView()
+                } else {
+                    // FIXME: Duplicate results
+//                    Button(action: fetcher.fetch) {
+//                        Image(systemName: "arrow.clockwise")
+//                    }
+                }
+            }
         }
     }
 
@@ -40,7 +47,7 @@ struct TopicDetailView: View {
             Text(fetcher.topic.title)
                 .font(.title3)
 
-            Spacer()
+            Spacer(minLength: 0)
         }
         .padding()
     }
@@ -51,21 +58,41 @@ struct TopicDetailView: View {
                 Text(content)
             }
 
-            Spacer()
+            Spacer(minLength: 0)
         }
         .padding()
     }
 
+    var numberOfReplies: some View {
+        HStack(spacing: 2) {
+            Group {
+                Text(String(fetcher.topic.numberOfReplies))
+
+                Text("Replies")
+            }
+            .font(.footnote)
+            .foregroundColor(.secondary)
+
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 6)
+        .background {
+            Color.gray
+                .opacity(0.2)
+                .shadow(radius: 4)
+        }
+    }
+
     var replies: some View {
-        ForEach(fetcher.replies, id: \.self) { reply in
-            HStack {
+        LazyVStack(alignment: .leading) {
+            ForEach(fetcher.replies, id: \.self) { reply in
                 Text(reply)
                     .padding()
 
-                Spacer()
+                Divider()
             }
-
-            Divider()
+            .transition(.slide)
         }
     }
 }
