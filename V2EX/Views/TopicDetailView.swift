@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct TopicDetailView: View {
-    let topic: Topic
+    @StateObject private var fetcher: TopicDetailFetcher
+
+    init(of topic: Topic) {
+        _fetcher = StateObject(wrappedValue: TopicDetailFetcher(topic: topic))
+    }
 
     var body: some View {
         ScrollView {
@@ -20,6 +24,11 @@ struct TopicDetailView: View {
 
             Divider()
 
+            Text(String(fetcher.topic.numberOfReplies))
+                .font(.footnote)
+
+            Divider()
+
             replies
         }
     }
@@ -28,7 +37,7 @@ struct TopicDetailView: View {
 
     var title: some View {
         HStack {
-            Text(topic.title)
+            Text(fetcher.topic.title)
                 .font(.title3)
 
             Spacer()
@@ -38,7 +47,7 @@ struct TopicDetailView: View {
 
     var content: some View {
         HStack {
-            if let content = topic.content {
+            if let content = fetcher.topic.content {
                 Text(content)
             }
 
@@ -48,14 +57,22 @@ struct TopicDetailView: View {
     }
 
     var replies: some View {
-        Text(String(topic.numberOfReplies))
-            .font(.footnote)
+        ForEach(fetcher.replies, id: \.self) { reply in
+            HStack {
+                Text(reply)
+                    .padding()
+
+                Spacer()
+            }
+
+            Divider()
+        }
     }
 }
 
 struct TopicDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let topic = Topic(id: 707_378, numberOfReplies: 31, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？")
-        TopicDetailView(topic: topic)
+        TopicDetailView(of: topic)
     }
 }

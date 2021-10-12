@@ -23,6 +23,7 @@
 		29D864F627131C9D00CE8DC6 /* V2EXUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864F527131C9D00CE8DC6 /* V2EXUITests.swift */; };
 		29D864F827131C9D00CE8DC6 /* V2EXUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864F727131C9D00CE8DC6 /* V2EXUITestsLaunchTests.swift */; };
 		6B27645D2713D58300A67F53 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 6B27645C2713D58300A67F53 /* SwiftSoup */; };
+		6B27645F271526AB00A67F53 /* TopicDetailFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B27645E271526AB00A67F53 /* TopicDetailFetcher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		29D864F127131C9D00CE8DC6 /* V2EXUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = V2EXUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		29D864F527131C9D00CE8DC6 /* V2EXUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2EXUITests.swift; sourceTree = "<group>"; };
 		29D864F727131C9D00CE8DC6 /* V2EXUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2EXUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6B27645E271526AB00A67F53 /* TopicDetailFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailFetcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				29921028271336D600A5E8F7 /* TabDetailFetcher.swift */,
+				6B27645E271526AB00A67F53 /* TopicDetailFetcher.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				2992102127132AB000A5E8F7 /* TopicTabList.swift in Sources */,
 				2992102327132D6A00A5E8F7 /* TabDetailView.swift in Sources */,
 				29D864DF27131C9D00CE8DC6 /* Persistence.swift in Sources */,
+				6B27645F271526AB00A67F53 /* TopicDetailFetcher.swift in Sources */,
 				29D864D827131C9C00CE8DC6 /* ContentView.swift in Sources */,
 				29921029271336D600A5E8F7 /* TabDetailFetcher.swift in Sources */,
 				29D864E227131C9D00CE8DC6 /* V2EX.xcdatamodeld in Sources */,

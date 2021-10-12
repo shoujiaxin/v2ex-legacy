@@ -17,7 +17,7 @@ struct TabDetailView: View {
     var body: some View {
         List {
             ForEach(fetcher.topics) { topic in
-                NavigationLink(destination: TopicDetailView(topic: topic)) {
+                NavigationLink(destination: TopicDetailView(of: topic)) {
                     topicRow(of: topic)
                 }
             }

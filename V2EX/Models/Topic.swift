@@ -8,7 +8,7 @@
 import Foundation
 
 struct Topic: Identifiable {
-    let content: String? = nil
+    var content: String? = nil
 
     let id: Int
 

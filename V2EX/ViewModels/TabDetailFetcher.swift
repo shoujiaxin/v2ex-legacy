@@ -92,5 +92,5 @@ class TabDetailFetcher: ObservableObject {
 
     // MARK: - Constants
 
-    static let baseURL: String = "https://www.v2ex.com"
+    private static let baseURL: String = "https://www.v2ex.com"
 }
