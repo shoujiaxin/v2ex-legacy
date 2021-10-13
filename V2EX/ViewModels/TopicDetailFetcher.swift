@@ -75,9 +75,18 @@ class TopicDetailFetcher: ObservableObject {
     private func parseReplies(_ document: Document) {
         do {
             try withAnimation(.easeInOut) {
-                self.replies = try document.select(".reply_content")
+                self.replies = try document.select("[id~=^r_[0-9]+$]")
                     .enumerated()
-                    .map { try Reply(id: $0.0 + 1, content: $0.1.text()) }
+                    .compactMap { index, item in
+                        let content = try item.select(".reply_content").text()
+
+                        guard let authorName = try item.select(#"[href~=^\/member\/.+]"#).first?.text() else {
+                            return nil
+                        }
+                        let author = Author(name: authorName)
+
+                        return Reply(id: index + 1, content: content, author: author)
+                    }
             }
         } catch {
             print(error)

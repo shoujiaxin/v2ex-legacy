@@ -90,12 +90,14 @@ struct TopicDetailView: View {
             ForEach(fetcher.replies) { reply in
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
+                        Text(reply.author.name)
+
                         Spacer()
 
                         Text("#\(reply.id)")
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
                     }
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
                     .padding()
 
                     Text(reply.content)

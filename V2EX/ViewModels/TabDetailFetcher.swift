@@ -83,7 +83,7 @@ class TabDetailFetcher: ObservableObject {
 
         let title = try item.select(".item_title").text()
 
-        guard let authorName = try item.select(".topic_info").select("a").filter({ try $0.attr("href").contains("member") }).first?.text() else {
+        guard let authorName = try item.select(".topic_info").select(#"[href~=^\/member\/.+]"#).first?.text() else {
             return nil
         }
         let author = Author(name: authorName)

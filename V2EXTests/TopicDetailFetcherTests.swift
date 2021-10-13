@@ -70,6 +70,7 @@ class TopicDetailFetcherTests: XCTestCase {
                 XCTAssertNotNil(reply)
                 XCTAssertEqual(reply?.id, 1)
                 XCTAssertEqual(reply?.content, "官网有对比功能。动动手买东西就 ok")
+                XCTAssertEqual(reply?.author.name, "youngpier")
 
                 repliesExpectation.fulfill()
             }
