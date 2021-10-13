@@ -88,32 +88,44 @@ struct TopicDetailView: View {
     var replies: some View {
         LazyVStack(alignment: .leading) {
             ForEach(fetcher.replies) { reply in
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack {
-                        Text(reply.author.name)
-
-                        Spacer()
-
-                        Text("#\(reply.id)")
-                    }
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
+                replyRow(of: reply)
                     .padding()
-
-                    Text(reply.content)
-                        .padding()
-                }
 
                 Divider()
             }
             .transition(.slide)
         }
     }
+
+    @ViewBuilder
+    func replyRow(of reply: Reply) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(spacing: 16) {
+                AsyncImage(url: reply.author.avatarURL)
+                    .frame(width: 40, height: 40)
+                    .cornerRadius(4)
+
+                VStack {
+                    Text(reply.author.name)
+
+                    Spacer()
+                }
+
+                Spacer()
+
+                Text("#\(reply.id)")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+            }
+
+            Text(reply.content)
+        }
+    }
 }
 
 struct TopicDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let topic = Topic(id: 707_378, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？", author: Author(name: "shoujiaxin"), numberOfReplies: 31)
+        let topic = Topic(id: 707_378, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？", author: Author(name: "shoujiaxin", avatarURL: URL(string: "https://cdn.v2ex.com/avatar/f9b7/ef66/257377_large.png?m=1514370922")!), numberOfReplies: 31)
         TopicDetailView(of: topic)
     }
 }

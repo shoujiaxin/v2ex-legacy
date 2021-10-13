@@ -80,10 +80,10 @@ class TopicDetailFetcher: ObservableObject {
                     .compactMap { index, item in
                         let content = try item.select(".reply_content").text()
 
-                        guard let authorName = try item.select(#"[href~=^\/member\/.+]"#).first?.text() else {
+                        guard let authorName = try item.select(#"[href~=^\/member\/.+]"#).first?.text(), let avatarURL = try URL(string: item.select(".avatar").attr("src")) else {
                             return nil
                         }
-                        let author = Author(name: authorName)
+                        let author = Author(name: authorName, avatarURL: avatarURL)
 
                         return Reply(id: index + 1, content: content, author: author)
                     }

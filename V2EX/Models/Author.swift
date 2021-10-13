@@ -13,4 +13,6 @@ struct Author: Identifiable {
     }
 
     let name: String
+
+    let avatarURL: URL
 }
