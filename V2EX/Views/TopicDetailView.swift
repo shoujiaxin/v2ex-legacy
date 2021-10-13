@@ -74,7 +74,7 @@ struct TopicDetailView: View {
             .font(.footnote)
             .foregroundColor(.secondary)
 
-            Spacer(minLength: 0)
+            Spacer()
         }
         .padding(.horizontal)
         .padding(.vertical, 6)
@@ -102,8 +102,8 @@ struct TopicDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 16) {
                 AsyncImage(url: reply.author.avatarURL)
-                    .frame(width: 40, height: 40)
-                    .cornerRadius(4)
+                    .frame(width: avatarSize, height: avatarSize)
+                    .cornerRadius(avatarCornerRadius)
 
                 VStack {
                     Text(reply.author.name)
@@ -121,6 +121,11 @@ struct TopicDetailView: View {
             Text(reply.content)
         }
     }
+
+    // MARK: - Constants
+
+    private let avatarSize: CGFloat = 40
+    private let avatarCornerRadius: CGFloat = 4
 }
 
 struct TopicDetailView_Previews: PreviewProvider {

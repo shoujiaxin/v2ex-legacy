@@ -5,91 +5,79 @@
 //  Created by Jiaxin Shou on 2021/10/12.
 //
 
-import Combine
 import Foundation
 import SwiftSoup
 import SwiftUI
 
-class TopicDetailFetcher: ObservableObject {
+class TopicDetailFetcher: DetailFetcher {
     @Published private(set) var topic: Topic
 
     @Published private(set) var replies: [Reply] = []
 
-    @Published private(set) var isFetching: Bool = false
-
     private let url: URL
-
-    private var cancellable: AnyCancellable?
 
     init(topic: Topic) {
         _topic = Published(wrappedValue: topic)
 
         url = Self.baseURL.appendingPathComponent(String(topic.id))
 
+        super.init()
+
         fetch()
     }
 
-    func cancel() {
-        isFetching = false
-        cancellable?.cancel()
-    }
-
     func fetch(with session: URLSession = .shared) {
-        cancel()
-
-        isFetching = true
-        cancellable = session.dataTaskPublisher(for: url)
-            .receive(on: DispatchQueue.main)
-            .map(\.data)
-            .map { String(data: $0, encoding: .utf8) }
-            .replaceNil(with: "")
-            .tryMap { try SwiftSoup.parse($0) }
-            .sink { [weak self] completion in
-                self?.isFetching = false
-                switch completion {
-                case let .failure(error):
-                    print(error)
-                case .finished:
-                    print("finished")
+        task = Task(priority: .high) {
+            let document = try await fetch(with: session, from: url)
+            await withThrowingTaskGroup(of: Void.self) { group in
+                group.addTask {
+                    try self.parseContent(document)
                 }
-            } receiveValue: { [weak self] document in
-                // TODO: Concurrency
-                self?.parseContent(document)
-                self?.parseReplies(document)
+                group.addTask {
+                    try self.parseReplies(document)
+                }
             }
+        }
     }
 
     // MARK: - Private functions
 
-    private func parseContent(_ document: Document) {
-        do {
-            let contentHTML = try document.select(".topic_content").html()
+    private func parseContent(_ document: Document?) throws {
+        guard let document = document else {
+            return
+        }
+
+        let contentHTML = try document.select(".topic_content").html()
+
+        DispatchQueue.main.async {
             withAnimation(.easeInOut) {
-                topic.content = contentHTML
+                self.topic.content = contentHTML
             }
-        } catch {
-            print(error)
         }
     }
 
-    private func parseReplies(_ document: Document) {
-        do {
-            try withAnimation(.easeInOut) {
-                self.replies = try document.select("[id~=^r_[0-9]+$]")
-                    .enumerated()
-                    .compactMap { index, item in
-                        let content = try item.select(".reply_content").text()
+    private func parseReplies(_ document: Document?) throws {
+        guard let document = document else {
+            return
+        }
 
-                        guard let authorName = try item.select(#"[href~=^\/member\/.+]"#).first?.text(), let avatarURL = try URL(string: item.select(".avatar").attr("src")) else {
-                            return nil
-                        }
-                        let author = Author(name: authorName, avatarURL: avatarURL)
+        let replies: [Reply] = try document.select("[id~=^r_[0-9]+$]")
+            .enumerated()
+            .compactMap { index, item in
+                let content = try item.select(".reply_content").text()
 
-                        return Reply(id: index + 1, content: content, author: author)
-                    }
+                guard let authorName = try item.select(#"[href~=^\/member\/.+]"#).first?.text(), let avatarURL = try URL(string: item.select(".avatar").attr("src")) else {
+                    return nil
+                }
+                let author = Author(name: authorName, avatarURL: avatarURL)
+
+                return Reply(id: index + 1, content: content, author: author)
             }
-        } catch {
-            print(error)
+
+        DispatchQueue.main.async {
+            withAnimation(.easeInOut) {
+                self.replies = replies
+            }
         }
     }
 

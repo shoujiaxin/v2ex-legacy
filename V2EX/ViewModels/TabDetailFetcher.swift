@@ -5,68 +5,47 @@
 //  Created by Jiaxin Shou on 2021/10/10.
 //
 
-import Combine
 import Foundation
 import SwiftSoup
 import SwiftUI
 
-class TabDetailFetcher: ObservableObject {
+class TabDetailFetcher: DetailFetcher {
     @Published private(set) var topics: [Topic] = []
 
-    @Published private(set) var isFetching: Bool = false
-
     private let url: URL
-
-    private var cancellable: AnyCancellable?
 
     init(topicTab: String) {
         var components = URLComponents(string: Self.baseURL)!
         components.queryItems = [URLQueryItem(name: "tab", value: topicTab)]
         url = components.url!
 
+        super.init()
+
         fetch()
     }
 
-    func cancel() {
-        isFetching = false
-        cancellable?.cancel()
-    }
-
     func fetch(with session: URLSession = .shared) {
-        cancel()
-
-        isFetching = true
-        cancellable = session.dataTaskPublisher(for: url)
-            .receive(on: DispatchQueue.main)
-            .map(\.data)
-            .map { String(data: $0, encoding: .utf8) }
-            .sink { [weak self] completion in
-                self?.isFetching = false
-                switch completion {
-                case let .failure(error):
-                    print(error)
-                case .finished:
-                    print("finished")
-                }
-            } receiveValue: { [weak self] html in
-                if let html = html {
-                    self?.parse(html)
-                }
-            }
+        task = Task(priority: .high) {
+            let document = try await fetch(with: session, from: url)
+            try self.parse(document)
+        }
     }
 
     // MARK: - Private functions
 
-    private func parse(_ html: String) {
-        do {
-            let document = try SwiftSoup.parse(html)
-            try withAnimation(.easeInOut) {
-                self.topics = try document.select(".cell.item").compactMap { [weak self] item in
-                    try self?.parseTopicInfo(item)
-                }
+    private func parse(_ document: Document?) throws {
+        guard let document = document else {
+            return
+        }
+
+        let topics = try document.select(".cell.item").compactMap { [weak self] item in
+            try self?.parseTopicInfo(item)
+        }
+
+        DispatchQueue.main.async {
+            withAnimation(.easeInOut) {
+                self.topics = topics
             }
-        } catch {
-            print(error)
         }
     }
 

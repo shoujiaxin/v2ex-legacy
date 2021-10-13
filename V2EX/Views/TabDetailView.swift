@@ -69,7 +69,7 @@ struct TabDetailView: View {
         }
     }
 
-    // MARK: Constants
+    // MARK: - Constants
 
     private let capsuledTextHorizontalPadding: CGFloat = 8
     private let capsuledTextVerticalPadding: CGFloat = 2
