@@ -13,7 +13,7 @@ import SwiftUI
 class TopicDetailFetcher: ObservableObject {
     @Published private(set) var topic: Topic
 
-    @Published private(set) var replies: [String] = []
+    @Published private(set) var replies: [Reply] = []
 
     @Published private(set) var isFetching: Bool = false
 
@@ -75,7 +75,9 @@ class TopicDetailFetcher: ObservableObject {
     private func parseReplies(_ document: Document) {
         do {
             try withAnimation(.easeInOut) {
-                self.replies = try document.select(".reply_content").map { try $0.text() }
+                self.replies = try document.select(".reply_content")
+                    .enumerated()
+                    .map { try Reply(content: $0.1.text(), id: $0.0 + 1) }
             }
         } catch {
             print(error)

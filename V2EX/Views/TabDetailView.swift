@@ -30,10 +30,11 @@ struct TabDetailView: View {
                 if fetcher.isFetching {
                     ProgressView()
                 } else {
-                    // FIXME: Duplicate results
-//                    Button(action: fetcher.fetch) {
-//                        Image(systemName: "arrow.clockwise")
-//                    }
+                    Button {
+                        fetcher.fetch()
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                    }
                 }
             }
         }

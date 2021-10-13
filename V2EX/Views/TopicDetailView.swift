@@ -31,10 +31,11 @@ struct TopicDetailView: View {
                 if fetcher.isFetching {
                     ProgressView()
                 } else {
-                    // FIXME: Duplicate results
-//                    Button(action: fetcher.fetch) {
-//                        Image(systemName: "arrow.clockwise")
-//                    }
+                    Button {
+                        fetcher.fetch()
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                    }
                 }
             }
         }
@@ -86,9 +87,20 @@ struct TopicDetailView: View {
 
     var replies: some View {
         LazyVStack(alignment: .leading) {
-            ForEach(fetcher.replies, id: \.self) { reply in
-                Text(reply)
+            ForEach(fetcher.replies) { reply in
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack {
+                        Spacer()
+
+                        Text("#\(reply.id)")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
                     .padding()
+
+                    Text(reply.content)
+                        .padding()
+                }
 
                 Divider()
             }

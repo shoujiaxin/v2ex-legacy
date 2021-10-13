@@ -68,7 +68,8 @@ class TopicDetailFetcherTests: XCTestCase {
 
                 let reply = repliesArray.last?.first
                 XCTAssertNotNil(reply)
-                XCTAssertEqual(reply, "官网有对比功能。动动手买东西就 ok")
+                XCTAssertEqual(reply?.content, "官网有对比功能。动动手买东西就 ok")
+                XCTAssertEqual(reply?.id, 1)
 
                 repliesExpectation.fulfill()
             }
