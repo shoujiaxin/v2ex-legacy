@@ -45,7 +45,13 @@ struct TabDetailView: View {
     @ViewBuilder
     func topicRow(of topic: Topic) -> some View {
         HStack {
-            Text(topic.title)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(topic.title)
+
+                Text(topic.author.name)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+            }
 
             Spacer()
 

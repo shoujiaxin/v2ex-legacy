@@ -20,7 +20,7 @@ class TopicDetailFetcherTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        let topic = Topic(id: 707_378, numberOfReplies: 31, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？")
+        let topic = Topic(id: 707_378, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？", author: Author(name: "shoujiaxin"), numberOfReplies: 31)
         fetcher = TopicDetailFetcher(topic: topic)
 
         let configuration = URLSessionConfiguration.default
@@ -68,8 +68,8 @@ class TopicDetailFetcherTests: XCTestCase {
 
                 let reply = repliesArray.last?.first
                 XCTAssertNotNil(reply)
-                XCTAssertEqual(reply?.content, "官网有对比功能。动动手买东西就 ok")
                 XCTAssertEqual(reply?.id, 1)
+                XCTAssertEqual(reply?.content, "官网有对比功能。动动手买东西就 ok")
 
                 repliesExpectation.fulfill()
             }

@@ -8,11 +8,13 @@
 import Foundation
 
 struct Topic: Identifiable {
-    var content: String? = nil
-
     let id: Int
+
+    let title: String
+
+    let author: Author
 
     let numberOfReplies: Int
 
-    let title: String
+    var content: String? = nil
 }

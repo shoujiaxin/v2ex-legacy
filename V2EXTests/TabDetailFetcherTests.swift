@@ -56,10 +56,11 @@ class TabDetailFetcherTests: XCTestCase {
 
                 let topic = topicsArray.last?.first
                 XCTAssertNotNil(topic)
-                XCTAssertNil(topic?.content)
                 XCTAssertEqual(topic?.id, 807_369)
-                XCTAssertEqual(topic?.numberOfReplies, 25)
                 XCTAssertEqual(topic?.title, "国庆节最后一天一千公里电动汽车长途驾驶体验")
+                XCTAssertEqual(topic?.author.name, "DeadLion")
+                XCTAssertEqual(topic?.numberOfReplies, 25)
+                XCTAssertNil(topic?.content)
 
                 topicsExpectation.fulfill()
             }

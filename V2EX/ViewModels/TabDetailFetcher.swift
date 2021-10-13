@@ -81,11 +81,16 @@ class TabDetailFetcher: ObservableObject {
             return nil
         }
 
-        let numberOfReplies = try Int(item.select(".count_livid").text()) ?? 0
-
         let title = try item.select(".item_title").text()
 
-        return Topic(id: id, numberOfReplies: numberOfReplies, title: title)
+        guard let authorName = try item.select(".topic_info").select("a").filter({ try $0.attr("href").contains("member") }).first?.text() else {
+            return nil
+        }
+        let author = Author(name: authorName)
+
+        let numberOfReplies = try Int(item.select(".count_livid").text()) ?? 0
+
+        return Topic(id: id, title: title, author: author, numberOfReplies: numberOfReplies)
     }
 
     // MARK: - Constants

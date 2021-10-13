@@ -77,7 +77,7 @@ class TopicDetailFetcher: ObservableObject {
             try withAnimation(.easeInOut) {
                 self.replies = try document.select(".reply_content")
                     .enumerated()
-                    .map { try Reply(content: $0.1.text(), id: $0.0 + 1) }
+                    .map { try Reply(id: $0.0 + 1, content: $0.1.text()) }
             }
         } catch {
             print(error)

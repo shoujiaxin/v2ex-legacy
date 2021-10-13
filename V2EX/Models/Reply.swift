@@ -8,7 +8,7 @@
 import Foundation
 
 struct Reply: Identifiable {
-    let content: String
-
     let id: Int
+
+    let content: String
 }

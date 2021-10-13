@@ -111,7 +111,7 @@ struct TopicDetailView: View {
 
 struct TopicDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let topic = Topic(id: 707_378, numberOfReplies: 31, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？")
+        let topic = Topic(id: 707_378, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？", author: Author(name: "shoujiaxin"), numberOfReplies: 31)
         TopicDetailView(of: topic)
     }
 }
