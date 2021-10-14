@@ -18,7 +18,8 @@ struct TopicDetailView: View {
         ScrollView {
             title
 
-            Divider()
+            ContentInfoRow(author: fetcher.topic.author, date: fetcher.topic.postDate)
+                .padding(.horizontal)
 
             content
 
@@ -82,7 +83,7 @@ struct TopicDetailView: View {
     }
 
     var replies: some View {
-        LazyVStack(alignment: .leading) {
+        LazyVStack(alignment: .leading, spacing: 0) {
             ForEach(fetcher.replies) { reply in
                 replyRow(of: reply)
                     .padding()
@@ -109,22 +110,8 @@ struct TopicDetailView: View {
     @ViewBuilder
     func replyRow(of reply: Reply) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(spacing: 16) {
-                AsyncImage(url: reply.author.avatarURL)
-                    .frame(width: avatarSize, height: avatarSize)
-                    .cornerRadius(avatarCornerRadius)
-
-                VStack(alignment: .leading) {
-                    Text(reply.author.name)
-
-                    Spacer()
-
-                    Text(reply.postDate)
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-                }
-
-                Spacer()
+            HStack {
+                ContentInfoRow(author: reply.author, date: reply.postDate)
 
                 Text("#\(reply.id)")
                     .font(.footnote)
@@ -134,16 +121,12 @@ struct TopicDetailView: View {
             Text(reply.content)
         }
     }
-
-    // MARK: - Constants
-
-    private let avatarSize: CGFloat = 40
-    private let avatarCornerRadius: CGFloat = 4
 }
 
 struct TopicDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let topic = Topic(id: 707_378, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？", author: Author(name: "shoujiaxin", avatarURL: URL(string: "https://cdn.v2ex.com/avatar/f9b7/ef66/257377_large.png?m=1514370922")!), numberOfReplies: 31)
+        let author = Author(name: "shoujiaxin", avatarURL: URL(string: "https://cdn.v2ex.com/avatar/f9b7/ef66/257377_large.png?m=1514370922")!)
+        let topic = Topic(id: 707_378, title: "所以 iPad Air 4 和 iPad Pro 2020 该怎么选呢？", author: author, postDate: "2020-09-16 02:32:03 +08:00", numberOfReplies: 31)
         TopicDetailView(of: topic)
     }
 }

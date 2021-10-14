@@ -14,6 +14,8 @@ struct Topic: Identifiable {
 
     let author: Author
 
+    let postDate: String
+
     let numberOfReplies: Int
 
     var content: String? = nil {

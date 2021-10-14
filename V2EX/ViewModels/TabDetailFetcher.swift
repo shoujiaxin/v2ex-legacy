@@ -12,10 +12,10 @@ import SwiftUI
 class TabDetailFetcher: DetailFetcher {
     @Published private(set) var topics: [Topic] = []
 
-    let url: URL
+    private let url: URL
 
     init(topicTab: String) {
-        var components = URLComponents(string: Self.baseURL)!
+        var components = URLComponents(url: Constants.baseURL, resolvingAgainstBaseURL: false)!
         components.queryItems = [URLQueryItem(name: "tab", value: topicTab)]
         url = components.url!
 
@@ -65,17 +65,19 @@ class TabDetailFetcher: DetailFetcher {
 
         let title = try item.select(".item_title").text()
 
-        guard let authorName = try item.select(".topic_info").select(#"[href~=^\/member\/.+]"#).first?.text(), let avatarURL = try URL(string: item.select(".avatar").attr("src")) else {
+        let topicInfo = try item.select(".topic_info")
+        guard let authorName = try topicInfo.select(#"[href~=^\/member\/.+]"#).first?.text(), let avatarURL = try URL(string: item.select(".avatar").attr("src")) else {
             return nil
         }
         let author = Author(name: authorName, avatarURL: avatarURL)
 
+        let postDate = try topicInfo.select("span").filter { try !$0.attr("title").isEmpty }.first?.attr("title")
+        guard let postDate = postDate else {
+            return nil
+        }
+
         let numberOfReplies = try Int(item.select(".count_livid").text()) ?? 0
 
-        return Topic(id: id, title: title, author: author, numberOfReplies: numberOfReplies)
+        return Topic(id: id, title: title, author: author, postDate: postDate, numberOfReplies: numberOfReplies)
     }
-
-    // MARK: - Constants
-
-    private static let baseURL: String = "https://www.v2ex.com"
 }

@@ -60,8 +60,10 @@ class TabDetailFetcherTests: XCTestCase {
                 XCTAssertEqual(topic?.title, "国庆节最后一天一千公里电动汽车长途驾驶体验")
                 XCTAssertEqual(topic?.author.name, "DeadLion")
                 XCTAssertEqual(topic?.author.avatarURL.absoluteString, "https://cdn.v2ex.com/avatar/938f/ffb2/133367_large.png?m=1621408222")
+                XCTAssertEqual(topic?.postDate, "2021-10-12 20:44:19 +08:00")
                 XCTAssertEqual(topic?.numberOfReplies, 25)
                 XCTAssertNil(topic?.content)
+                XCTAssertNil(topic?.attributedContent)
 
                 topicsExpectation.fulfill()
             }

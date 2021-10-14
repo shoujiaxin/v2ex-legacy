@@ -20,10 +20,11 @@ struct TabDetailView: View {
             ForEach(fetcher.topics) { topic in
                 NavigationLink(destination: TopicDetailView(of: topic)) {
                     topicRow(of: topic)
+                        .padding(.vertical, 6)
                     #if DEBUG
                         .contextMenu {
                             Button {
-                                UIApplication.shared.open(fetcher.url)
+                                UIApplication.shared.open(Constants.topicBaseURL.appendingPathComponent(String(topic.id)))
                             } label: {
                                 Label("Open in Safari", systemImage: "safari")
                             }
@@ -54,12 +55,16 @@ struct TabDetailView: View {
     @ViewBuilder
     func topicRow(of topic: Topic) -> some View {
         HStack {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(topic.title)
 
-                Text(topic.author.name)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
+                HStack {
+                    Text(topic.author.name)
+
+                    Text(topic.postDate)
+                }
+                .font(.footnote)
+                .foregroundColor(.secondary)
             }
 
             Spacer()

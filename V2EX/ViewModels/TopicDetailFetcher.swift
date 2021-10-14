@@ -19,7 +19,7 @@ class TopicDetailFetcher: DetailFetcher {
     init(topic: Topic) {
         _topic = Published(wrappedValue: topic)
 
-        url = Self.baseURL.appendingPathComponent(String(topic.id))
+        url = Constants.topicBaseURL.appendingPathComponent(String(topic.id))
 
         super.init()
 
@@ -87,8 +87,4 @@ class TopicDetailFetcher: DetailFetcher {
             }
         }
     }
-
-    // MARK: - Constants
-
-    private static let baseURL = URL(string: "https://www.v2ex.com/t")!
 }
