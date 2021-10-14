@@ -76,7 +76,9 @@ class TopicDetailFetcher: DetailFetcher {
                 }
                 let author = Author(name: authorName, avatarURL: avatarURL)
 
-                return Reply(id: index + 1, content: content, author: author)
+                let postDate = try item.select(".ago").attr("title")
+
+                return Reply(id: index + 1, content: content, author: author, postDate: postDate)
             }
 
         DispatchQueue.main.async {

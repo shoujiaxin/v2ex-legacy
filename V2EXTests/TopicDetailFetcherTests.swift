@@ -73,6 +73,7 @@ class TopicDetailFetcherTests: XCTestCase {
                 XCTAssertEqual(reply?.content, "官网有对比功能。动动手买东西就 ok")
                 XCTAssertEqual(reply?.author.name, "youngpier")
                 XCTAssertEqual(reply?.author.avatarURL.absoluteString, "https://cdn.v2ex.com/avatar/5de1/e08f/301322_large.png?m=1537970469")
+                XCTAssertEqual(reply?.postDate, "2020-09-16 02:37:46 +08:00")
 
                 repliesExpectation.fulfill()
             }
@@ -80,12 +81,11 @@ class TopicDetailFetcherTests: XCTestCase {
 
         let isFetchingExpectation = expectation(description: "TopicDetailFetcherTests.testFetch.isFetching")
         fetcher.$isFetching
-            .collect(4)
+            .collect(3)
             .sink { states in
                 XCTAssertEqual(states[0], true)
-                XCTAssertEqual(states[1], true)
-                XCTAssertEqual(states[2], true)
-                XCTAssertEqual(states[3], false)
+                XCTAssertEqual(states[1], false)
+                XCTAssertEqual(states[2], false)
 
                 isFetchingExpectation.fulfill()
             }

@@ -105,10 +105,14 @@ struct TopicDetailView: View {
                     .frame(width: avatarSize, height: avatarSize)
                     .cornerRadius(avatarCornerRadius)
 
-                VStack {
+                VStack(alignment: .leading) {
                     Text(reply.author.name)
 
                     Spacer()
+
+                    Text(reply.postDate)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
                 }
 
                 Spacer()

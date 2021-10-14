@@ -69,12 +69,11 @@ class TabDetailFetcherTests: XCTestCase {
 
         let isFetchingExpectation = expectation(description: "TabDetailFetcherTests.testFetch.isFetching")
         fetcher.$isFetching
-            .collect(4)
+            .collect(3)
             .sink { states in
                 XCTAssertEqual(states[0], true)
-                XCTAssertEqual(states[1], true)
-                XCTAssertEqual(states[2], true)
-                XCTAssertEqual(states[3], false)
+                XCTAssertEqual(states[1], false)
+                XCTAssertEqual(states[2], false)
 
                 isFetchingExpectation.fulfill()
             }

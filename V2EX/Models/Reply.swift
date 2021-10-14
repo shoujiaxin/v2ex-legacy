@@ -13,4 +13,6 @@ struct Reply: Identifiable {
     let content: String
 
     let author: Author
+
+    let postDate: String
 }

@@ -21,6 +21,7 @@ class DetailFetcher: ObservableObject {
     func fetch(with session: URLSession = .shared, from url: URL) async throws -> Document? {
         let (data, response) = try await session.data(from: url)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            // TODO: Throw error
             return nil
         }
 
