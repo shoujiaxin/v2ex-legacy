@@ -20,6 +20,15 @@ struct TabDetailView: View {
             ForEach(fetcher.topics) { topic in
                 NavigationLink(destination: TopicDetailView(of: topic)) {
                     topicRow(of: topic)
+                    #if DEBUG
+                        .contextMenu {
+                            Button {
+                                UIApplication.shared.open(fetcher.url)
+                            } label: {
+                                Label("Open in Safari", systemImage: "safari")
+                            }
+                        }
+                    #endif
                 }
             }
             .transition(.slide)

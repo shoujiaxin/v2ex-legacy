@@ -12,7 +12,7 @@ import SwiftUI
 class TabDetailFetcher: DetailFetcher {
     @Published private(set) var topics: [Topic] = []
 
-    private let url: URL
+    let url: URL
 
     init(topicTab: String) {
         var components = URLComponents(string: Self.baseURL)!

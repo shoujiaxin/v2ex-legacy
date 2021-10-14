@@ -65,14 +65,10 @@ struct TopicDetailView: View {
     }
 
     var numberOfReplies: some View {
-        HStack(spacing: 2) {
-            Group {
-                Text(String(fetcher.topic.numberOfReplies))
-
-                Text("Replies")
-            }
-            .font(.footnote)
-            .foregroundColor(.secondary)
+        HStack {
+            Text("\(fetcher.topic.numberOfReplies) Replies")
+                .font(.footnote)
+                .foregroundColor(.secondary)
 
             Spacer()
         }
@@ -90,6 +86,19 @@ struct TopicDetailView: View {
             ForEach(fetcher.replies) { reply in
                 replyRow(of: reply)
                     .padding()
+                    .contextMenu {
+                        Button {} label: {
+                            Label("Reply", systemImage: "arrowshape.turn.up.left")
+                        }
+
+                        Button {} label: {
+                            Label("Like", systemImage: "hand.thumbsup")
+                        }
+
+                        Button {} label: {
+                            Label("Block", systemImage: "hand.raised")
+                        }
+                    }
 
                 Divider()
             }

@@ -10,4 +10,4 @@
 
 "Me" = "我的";
 
-"Replies" = "条回复";
+"%lld Replies" = "%lld条回复";
