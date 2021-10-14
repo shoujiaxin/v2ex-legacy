@@ -9,7 +9,7 @@ import Foundation
 import SwiftSoup
 
 class DetailFetcher: ObservableObject {
-    @Published private(set) var isFetching: Bool = true
+    @Published var isFetching: Bool = true
 
     var task: Task<Void, Error>?
 
@@ -19,9 +19,6 @@ class DetailFetcher: ObservableObject {
     }
 
     func fetch(with session: URLSession = .shared, from url: URL) async throws -> Document? {
-        DispatchQueue.main.async { self.isFetching = true }
-        defer { DispatchQueue.main.async { self.isFetching = false } }
-
         let (data, response) = try await session.data(from: url)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             return nil

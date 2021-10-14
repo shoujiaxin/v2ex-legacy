@@ -27,6 +27,7 @@ class TopicDetailFetcher: DetailFetcher {
     }
 
     func fetch(with session: URLSession = .shared) {
+        isFetching = true
         task = Task(priority: .high) {
             let document = try await fetch(with: session, from: url)
             await withThrowingTaskGroup(of: Void.self) { group in
@@ -37,6 +38,8 @@ class TopicDetailFetcher: DetailFetcher {
                     try self.parseReplies(document)
                 }
             }
+
+            DispatchQueue.main.async { self.isFetching = false }
         }
     }
 

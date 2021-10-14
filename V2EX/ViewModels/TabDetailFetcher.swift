@@ -25,9 +25,12 @@ class TabDetailFetcher: DetailFetcher {
     }
 
     func fetch(with session: URLSession = .shared) {
+        isFetching = true
         task = Task(priority: .high) {
             let document = try await fetch(with: session, from: url)
             try self.parse(document)
+
+            DispatchQueue.main.async { self.isFetching = false }
         }
     }
 
