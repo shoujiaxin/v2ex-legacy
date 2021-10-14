@@ -55,7 +55,7 @@ struct TopicDetailView: View {
 
     var content: some View {
         HStack {
-            if let content = fetcher.topic.content {
+            if let content = fetcher.topic.attributedContent {
                 Text(content)
             }
 

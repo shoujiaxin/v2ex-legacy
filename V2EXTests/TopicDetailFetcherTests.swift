@@ -55,6 +55,7 @@ class TopicDetailFetcherTests: XCTestCase {
             .collect(2)
             .sink { topics in
                 XCTAssertNotNil(topics.last?.content)
+                XCTAssertNotNil(topics.last?.attributedContent)
                 topicsExpectation.fulfill()
             }
             .store(in: &cancellables)

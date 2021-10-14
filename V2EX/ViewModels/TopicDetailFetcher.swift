@@ -47,7 +47,9 @@ class TopicDetailFetcher: DetailFetcher {
             return
         }
 
-        let contentHTML = try document.select(".topic_content").html()
+        let contents = try document.select(".topic_content")
+        let markdownBody = try contents.select(".markdown_body")
+        let contentHTML = try markdownBody.first?.html() ?? contents.html()
 
         DispatchQueue.main.async {
             withAnimation(.easeInOut) {
