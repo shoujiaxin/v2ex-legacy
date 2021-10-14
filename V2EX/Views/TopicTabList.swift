@@ -21,6 +21,20 @@ struct TopicTabList: View {
                 }
             }
             .navigationTitle("Topic")
+
+            welcomeView
+        }
+    }
+
+    // MARK: - Views
+
+    private var welcomeView: some View {
+        VStack(spacing: 24) {
+            Text("Welcome to V2EX")
+                .font(.title)
+
+            Text("V2EX is a community of start-ups, designers, developers and creative people.")
+                .foregroundColor(.secondary)
         }
     }
 
