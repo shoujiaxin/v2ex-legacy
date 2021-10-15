@@ -15,7 +15,6 @@ struct TabDetailView: View {
     }
 
     var body: some View {
-        // FIXME: List has confit with animations, change to ScrollView & LazyVStack
         List {
             ForEach(fetcher.topics) { topic in
                 NavigationLink(destination: TopicDetailView(of: topic)) {
@@ -32,7 +31,6 @@ struct TabDetailView: View {
                     #endif
                 }
             }
-            .transition(.slide)
         }
         .listStyle(InsetListStyle())
         .refreshable {
@@ -42,6 +40,12 @@ struct TabDetailView: View {
             ToolbarItem {
                 if fetcher.topics.isEmpty {
                     ProgressView()
+                } else {
+                    Button {
+                        // TODO: Post a topic
+                    } label: {
+                        Image(systemName: "plus.bubble")
+                    }
                 }
             }
         }
@@ -70,21 +74,9 @@ struct TabDetailView: View {
                 .font(.caption)
                 .fontWeight(.bold)
                 .foregroundColor(.secondary)
-                .padding(.horizontal, capsuledTextHorizontalPadding)
-                .padding(.vertical, capsuledTextVerticalPadding)
-                .background {
-                    Capsule()
-                        .foregroundColor(.gray)
-                        .opacity(capsuledTextBackgroundOpacity)
-                }
+                .capsuled()
         }
     }
-
-    // MARK: - Constants
-
-    private let capsuledTextHorizontalPadding: CGFloat = 8
-    private let capsuledTextVerticalPadding: CGFloat = 2
-    private let capsuledTextBackgroundOpacity: Double = 0.2
 }
 
 struct TabDetailView_Previews: PreviewProvider {

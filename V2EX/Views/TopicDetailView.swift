@@ -21,6 +21,7 @@ struct TopicDetailView: View {
             ContentInfoRow(author: fetcher.topic.author, date: fetcher.topic.postDate)
                 .padding(.horizontal)
 
+            // TODO: Display rich text & image
             content
 
             numberOfReplies
@@ -105,10 +106,12 @@ struct TopicDetailView: View {
                 ContentInfoRow(author: reply.author, date: reply.postDate)
 
                 Text("#\(reply.id)")
-                    .font(.footnote)
+                    .font(.caption)
                     .foregroundColor(.secondary)
+                    .capsuled()
             }
 
+            // TODO: Display rich text & image
             Text(reply.content)
         }
     }

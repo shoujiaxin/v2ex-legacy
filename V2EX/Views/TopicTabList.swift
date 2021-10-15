@@ -11,7 +11,7 @@ struct TopicTabList: View {
     var body: some View {
         NavigationView {
             List {
-                // TODO: Fetch topic tabs
+                // TODO: Tab icon
                 ForEach(topicTabs, id: \.self) { tab in
                     NavigationLink(tab) {
                         TabDetailView(topicTab: tab)

@@ -12,7 +12,7 @@ struct MainView: View {
         TabView {
             TopicTabList()
                 .tabItem {
-                    Label("Topic", systemImage: "message")
+                    Label("Topic", systemImage: "bubble.left")
                 }
 
             Text("Me Tab")
