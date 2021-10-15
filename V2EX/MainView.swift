@@ -1,33 +1,31 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  V2EX
 //
 //  Created by Jiaxin Shou on 2021/10/10.
 //
 
-import CoreData
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
     var body: some View {
         TabView {
             TopicTabList()
-                // TODO: Double tap to scroll to top & refresh
                 .tabItem {
-                    Label("Topic", systemImage: "captions.bubble.fill")
+                    Label("Topic", systemImage: "message")
                 }
 
             Text("Me Tab")
                 .tabItem {
-                    Label("Me", systemImage: "person.text.rectangle")
+                    Label("Me", systemImage: "person")
                 }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        MainView()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
