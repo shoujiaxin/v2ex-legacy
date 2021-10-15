@@ -21,8 +21,10 @@ struct TopicDetailView: View {
             ContentInfoRow(author: fetcher.topic.author, date: fetcher.topic.postDate)
                 .padding(.horizontal)
 
-            // TODO: Display rich text & image
-            content
+            if let content = fetcher.topic.attributedContent {
+                ContentView(attributedText: content)
+                    .padding()
+            }
 
             numberOfReplies
 
@@ -40,17 +42,6 @@ struct TopicDetailView: View {
         HStack {
             Text(fetcher.topic.title)
                 .font(.title3)
-
-            Spacer(minLength: 0)
-        }
-        .padding()
-    }
-
-    var content: some View {
-        HStack {
-            if let content = fetcher.topic.attributedContent {
-                Text(content)
-            }
 
             Spacer(minLength: 0)
         }

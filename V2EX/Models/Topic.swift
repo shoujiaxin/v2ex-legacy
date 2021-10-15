@@ -23,11 +23,8 @@ struct Topic: Identifiable {
             attributedContent = newValue
                 .flatMap { $0.data(using: .unicode) }
                 .flatMap { try? NSAttributedString(data: $0, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) }
-                .map { AttributedString($0) }
-            attributedContent?.font = .body
-            attributedContent?.foregroundColor = .primary
         }
     }
 
-    var attributedContent: AttributedString? = nil
+    var attributedContent: NSAttributedString? = nil
 }
