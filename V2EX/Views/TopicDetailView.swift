@@ -27,18 +27,9 @@ struct TopicDetailView: View {
 
             replies
         }
-        .toolbar {
-            ToolbarItem {
-                if fetcher.isFetching {
-                    ProgressView()
-                } else {
-                    Button {
-                        fetcher.fetch()
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                }
-            }
+        .refreshable {
+            // FIXME: ScrollView has no default implementation of .refreshable, maybe use List
+            await fetcher.fetch()
         }
     }
 

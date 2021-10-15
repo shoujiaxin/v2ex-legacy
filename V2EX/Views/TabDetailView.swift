@@ -35,16 +35,13 @@ struct TabDetailView: View {
             .transition(.slide)
         }
         .listStyle(InsetListStyle())
+        .refreshable {
+            await fetcher.fetch()
+        }
         .toolbar {
             ToolbarItem {
-                if fetcher.isFetching {
+                if fetcher.topics.isEmpty {
                     ProgressView()
-                } else {
-                    Button {
-                        fetcher.fetch()
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                    }
                 }
             }
         }

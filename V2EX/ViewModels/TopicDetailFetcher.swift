@@ -9,7 +9,7 @@ import Foundation
 import SwiftSoup
 import SwiftUI
 
-class TopicDetailFetcher: DetailFetcher {
+class TopicDetailFetcher: ObservableObject {
     @Published private(set) var topic: Topic
 
     @Published private(set) var replies: [Reply] = []
@@ -21,15 +21,14 @@ class TopicDetailFetcher: DetailFetcher {
 
         url = Constants.topicBaseURL.appendingPathComponent(String(topic.id))
 
-        super.init()
-
-        fetch()
+        Task {
+            await self.fetch()
+        }
     }
 
-    func fetch(with session: URLSession = .shared) {
-        isFetching = true
-        task = Task(priority: .high) {
-            let document = try await fetch(with: session, from: url)
+    func fetch(with session: URLSession = .shared) async {
+        do {
+            let document = try await V2EXRequest.document(with: session, from: url)
             await withThrowingTaskGroup(of: Void.self) { group in
                 group.addTask {
                     try self.parseContent(document)
@@ -38,8 +37,8 @@ class TopicDetailFetcher: DetailFetcher {
                     try self.parseReplies(document)
                 }
             }
-
-            DispatchQueue.main.async { self.isFetching = false }
+        } catch {
+            print(error.localizedDescription)
         }
     }
 

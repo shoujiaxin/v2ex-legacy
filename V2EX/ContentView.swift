@@ -12,6 +12,7 @@ struct ContentView: View {
     var body: some View {
         TabView {
             TopicTabList()
+                // TODO: Double tap to scroll to top & refresh
                 .tabItem {
                     Label("Topic", systemImage: "captions.bubble.fill")
                 }

@@ -34,29 +34,26 @@ class TopicDetailFetcherTests: XCTestCase {
         cancellables = []
     }
 
-    func testCancel() throws {
-        fetcher.fetch(with: session)
-        XCTAssertTrue(fetcher.isFetching)
-
-        fetcher.cancel()
-        XCTAssertFalse(fetcher.isFetching)
-    }
-
-    func testFetch() throws {
+    func testFetch() async throws {
         MockURLProtocol.requestHandler = { request in
             let data = try! Data(contentsOf: Bundle(for: type(of: self)).url(forResource: "TopicDetailFetcherTests", withExtension: "html")!)
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)
             return (data, response, nil)
         }
 
-        fetcher.fetch(with: session)
+        await fetcher.fetch(with: session)
 
         let topicsExpectation = expectation(description: "TopicDetailFetcherTests.testFetch.topics")
         fetcher.$topic
             .collect(2)
             .sink { topics in
+                XCTAssertNotNil(topics.first)
+                XCTAssertNil(topics.first?.content)
+                XCTAssertNil(topics.first?.attributedContent)
+
                 XCTAssertNotNil(topics.last?.content)
                 XCTAssertNotNil(topics.last?.attributedContent)
+
                 topicsExpectation.fulfill()
             }
             .store(in: &cancellables)
@@ -80,18 +77,6 @@ class TopicDetailFetcherTests: XCTestCase {
             }
             .store(in: &cancellables)
 
-        let isFetchingExpectation = expectation(description: "TopicDetailFetcherTests.testFetch.isFetching")
-        fetcher.$isFetching
-            .collect(3)
-            .sink { states in
-                XCTAssertEqual(states[0], true)
-                XCTAssertEqual(states[1], false)
-                XCTAssertEqual(states[2], false)
-
-                isFetchingExpectation.fulfill()
-            }
-            .store(in: &cancellables)
-
-        waitForExpectations(timeout: 5)
+        await waitForExpectations(timeout: 5)
     }
 }

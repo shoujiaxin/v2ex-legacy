@@ -9,7 +9,7 @@ import Foundation
 import SwiftSoup
 import SwiftUI
 
-class TabDetailFetcher: DetailFetcher {
+class TabDetailFetcher: ObservableObject {
     @Published private(set) var topics: [Topic] = []
 
     private let url: URL
@@ -19,18 +19,17 @@ class TabDetailFetcher: DetailFetcher {
         components.queryItems = [URLQueryItem(name: "tab", value: topicTab)]
         url = components.url!
 
-        super.init()
-
-        fetch()
+        Task {
+            await self.fetch()
+        }
     }
 
-    func fetch(with session: URLSession = .shared) {
-        isFetching = true
-        task = Task(priority: .high) {
-            let document = try await fetch(with: session, from: url)
-            try self.parse(document)
-
-            DispatchQueue.main.async { self.isFetching = false }
+    func fetch(with session: URLSession = .shared) async {
+        do {
+            let document = try await V2EXRequest.document(with: session, from: url)
+            try parse(document)
+        } catch {
+            print(error.localizedDescription)
         }
     }
 

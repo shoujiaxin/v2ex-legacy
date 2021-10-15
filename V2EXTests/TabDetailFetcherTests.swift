@@ -30,31 +30,21 @@ class TabDetailFetcherTests: XCTestCase {
         cancellables = []
     }
 
-    func testCancel() throws {
-        fetcher.fetch(with: session)
-        XCTAssertTrue(fetcher.isFetching)
-
-        fetcher.cancel()
-        XCTAssertFalse(fetcher.isFetching)
-    }
-
-    func testFetch() throws {
+    func testFetch() async throws {
         MockURLProtocol.requestHandler = { request in
             let data = try! Data(contentsOf: Bundle(for: type(of: self)).url(forResource: "TabDetailFetcherTests", withExtension: "html")!)
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)
             return (data, response, nil)
         }
 
-        fetcher.fetch(with: session)
+        await fetcher.fetch(with: session)
 
         let topicsExpectation = expectation(description: "TabDetailFetcherTests.testFetch.topics")
         fetcher.$topics
-            .collect(2)
-            .sink { topicsArray in
-                XCTAssertEqual(topicsArray.first?.count, 0)
-                XCTAssertEqual(topicsArray.last?.count, 49)
+            .sink { topics in
+                XCTAssertEqual(topics.count, 49)
 
-                let topic = topicsArray.last?.first
+                let topic = topics.first
                 XCTAssertNotNil(topic)
                 XCTAssertEqual(topic?.id, 807_369)
                 XCTAssertEqual(topic?.title, "国庆节最后一天一千公里电动汽车长途驾驶体验")
@@ -69,18 +59,6 @@ class TabDetailFetcherTests: XCTestCase {
             }
             .store(in: &cancellables)
 
-        let isFetchingExpectation = expectation(description: "TabDetailFetcherTests.testFetch.isFetching")
-        fetcher.$isFetching
-            .collect(3)
-            .sink { states in
-                XCTAssertEqual(states[0], true)
-                XCTAssertEqual(states[1], false)
-                XCTAssertEqual(states[2], false)
-
-                isFetchingExpectation.fulfill()
-            }
-            .store(in: &cancellables)
-
-        waitForExpectations(timeout: 5)
+        await waitForExpectations(timeout: 5)
     }
 }
