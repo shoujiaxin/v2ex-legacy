@@ -23,9 +23,10 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     private static let html =
         """
-        <div class="markdown_body"><p>今年 2 月份注册的公众号，用来作为个人博客，关于为什么不选择其他平台，主要看中了公众号的用户粘性比较大。目前并没有多少关注量，但还是想要留言功能，查询了几种方案，最实用的迁移留言号需要几千块钱（暂时不考虑），其他的植入小程序留言，广告太多了，而且听说有可能违规。 最后我是通过搭建了一个网站专门同步公众号文章（手动方式），网站内有评论模块。 具体操作是，每次公众号发文前，先更新网站，将网站链接设置为公众号文章的原文，然后群发，群发后可以得到公众号文章链接，此时再将公众号文章链接更新到网站上。用户想要留言只要点击最下方的阅读原文进行跳转即可。</p>
-        <p>具体细节： <a href="https://mp.weixin.qq.com/s/pxw_tkLB--f6KFx2hP1mSw" rel="nofollow">https://mp.weixin.qq.com/s/pxw_tkLB--f6KFx2hP1mSw</a></p>
-        <p>网站地址： <a href="https://www.togettoyou.com/" rel="nofollow">https://www.togettoyou.com/</a></p>
+        <div class="markdown_body"><p>我不是当事人，知乎上的<a href="https://www.zhihu.com/question/489703797" rel="nofollow">那个问题</a>是我提的，在知乎上有一定的阅读量，现在自称是公司法人的私信我，说我造谣惹事，已经交给王晶处理。</p>
+        <p>对于这事情，我的态度一贯是硬刚到底，我的行为并未触犯任何法律，单纯的描述客观事实罢了，所以他们的私信也不会吓到我，另外知乎的回答里面有当事人，也爆料了公司有人注册小号洗地以及跟他要证据。这个公司真的烂透了，早点死吧。</p>
+        <p><a href="https://www.v2ex.com/t/805110?p=1" rel="nofollow">镜像问题</a></p>
+        <p><img alt="2361634266486_.pic.jpg" class="embedded_image" loading="lazy" referrerpolicy="no-referrer" rel="noreferrer" src="https://i.loli.net/2021/10/15/OZMQlak8sYnUIbm.jpg"></p>
         </div>
         """
 

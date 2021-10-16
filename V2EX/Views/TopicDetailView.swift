@@ -24,6 +24,9 @@ struct TopicDetailView: View {
             if let content = fetcher.topic.attributedContent {
                 ContentView(attributedText: content)
                     .padding()
+            } else {
+                ProgressView()
+                    .padding()
             }
 
             numberOfReplies
@@ -70,6 +73,7 @@ struct TopicDetailView: View {
             ForEach(fetcher.replies) { reply in
                 replyRow(of: reply)
                     .padding()
+                    .contentShape(Rectangle())
                     .contextMenu {
                         Button {} label: {
                             Label("Reply", systemImage: "arrowshape.turn.up.left")
