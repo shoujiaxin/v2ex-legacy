@@ -112,7 +112,9 @@ class TopicDetailFetcher: ObservableObject {
 
                 let postDate = try item.select(".ago").attr("title")
 
-                return Reply(id: id, content: NSAttributedString(contentHTML), author: author, postDate: postDate)
+                let numberOfLikes = try Int(item.select(".small.fade").text()) ?? 0
+
+                return Reply(id: id, content: NSAttributedString(contentHTML), author: author, postDate: postDate, numberOfLikes: numberOfLikes)
             }
 
         DispatchQueue.main.async {

@@ -15,4 +15,6 @@ struct Reply: Identifiable {
     let author: Author
 
     let postDate: String
+
+    let numberOfLikes: Int
 }

@@ -94,7 +94,7 @@ struct TopicDetailView: View {
                         }
 
                         Button {} label: {
-                            Label("Like", systemImage: "hand.thumbsup")
+                            Label("Like", systemImage: "heart")
                         }
 
                         Button {} label: {
@@ -113,6 +113,18 @@ struct TopicDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 ContentInfoRow(author: reply.author, date: reply.postDate)
+
+                if reply.numberOfLikes > 0 {
+                    HStack(spacing: 2) {
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.red)
+                            .opacity(0.8)
+
+                        Text(String(reply.numberOfLikes))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
 
                 Text("#\(reply.id)")
                     .font(.caption)
