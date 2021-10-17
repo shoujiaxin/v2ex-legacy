@@ -83,7 +83,8 @@ struct TopicDetailView: View {
     }
 
     var replies: some View {
-        LazyVStack(alignment: .leading, spacing: 0) {
+        // ContentView has size issue in LazyVStack
+        VStack(alignment: .leading, spacing: 0) {
             ForEach(fetcher.replies) { reply in
                 replyRow(of: reply)
                     .padding()
