@@ -24,7 +24,7 @@ struct Topic: Identifiable {
             attributedContent = newValue
                 .flatMap { $0.data(using: .unicode) }
                 .flatMap { try? NSMutableAttributedString(data: $0, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) }
-                .map { $0.updateFont(size: UIFont.preferredFont(forTextStyle: .body).pointSize, color: .primary) }
+                .map { $0.updateFont(.preferredFont(forTextStyle: .body), color: UIColor(.primary)) }
         }
     }
 
@@ -32,19 +32,21 @@ struct Topic: Identifiable {
 }
 
 private extension NSMutableAttributedString {
-    func updateFont(size: CGFloat, color: Color) -> Self {
+    func updateFont(_ font: UIFont, color: UIColor) -> Self {
         beginEditing()
         enumerateAttribute(.font, in: NSRange(location: 0, length: length)) { value, range, _ in
-            guard let font = value as? UIFont else {
+            guard let currentFont = value as? UIFont else {
                 return
             }
 
-            let newFont = UIFont(descriptor: font.fontDescriptor, size: size)
+            // Only update font family & size
+            let fontDescriptor = currentFont.fontDescriptor.withFamily(font.familyName)
+            let newFont = UIFont(descriptor: fontDescriptor, size: font.pointSize)
             removeAttribute(.font, range: range)
             addAttribute(.font, value: newFont, range: range)
 
             removeAttribute(.foregroundColor, range: range)
-            addAttribute(.foregroundColor, value: UIColor(color), range: range)
+            addAttribute(.foregroundColor, value: color, range: range)
         }
         endEditing()
         return self
