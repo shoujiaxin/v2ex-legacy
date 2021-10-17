@@ -14,12 +14,21 @@ class TopicDetailFetcher: ObservableObject {
 
     @Published private(set) var replies: [Reply] = []
 
-    private let url: URL
+    var hasNextPage: Bool {
+        currentPage < numberOfPages
+    }
+
+    private var components: URLComponents
+
+    private var numberOfPages: Int = 1
+
+    private var currentPage: Int = 1
 
     init(topic: Topic) {
         _topic = Published(wrappedValue: topic)
 
-        url = Constants.topicBaseURL.appendingPathComponent(String(topic.id))
+        components = URLComponents(url: Constants.topicBaseURL.appendingPathComponent(String(topic.id)), resolvingAgainstBaseURL: false)!
+        components.queryItems = [URLQueryItem(name: "p", value: String(currentPage))]
 
         Task {
             await self.fetch()
@@ -27,6 +36,10 @@ class TopicDetailFetcher: ObservableObject {
     }
 
     func fetch(with session: URLSession = .shared) async {
+        guard let url = components.url else {
+            return
+        }
+
         do {
             let document = try await V2EXRequest.document(with: session, from: url)
             await withThrowingTaskGroup(of: Void.self) { group in
@@ -36,7 +49,26 @@ class TopicDetailFetcher: ObservableObject {
                 group.addTask {
                     try self.parseReplies(document)
                 }
+                group.addTask {
+                    let maxPage = try (document?.select(".page_input").attr("max")).flatMap { Int($0) }
+                    self.numberOfPages = maxPage ?? 1
+                }
             }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
+    func fetchNextPage(with session: URLSession = .shared) async {
+        components.queryItems = [URLQueryItem(name: "p", value: String(currentPage + 1))]
+        guard let url = components.url else {
+            return
+        }
+
+        do {
+            let document = try await V2EXRequest.document(with: session, from: url)
+            try parseReplies(document)
+            currentPage += 1
         } catch {
             print(error.localizedDescription)
         }
@@ -66,8 +98,11 @@ class TopicDetailFetcher: ObservableObject {
         }
 
         let replies: [Reply] = try document.select("[id~=^r_[0-9]+$]")
-            .enumerated()
-            .compactMap { index, item in
+            .compactMap { item in
+                guard let id = try Int(item.select(".no").text()) else {
+                    return nil
+                }
+
                 let content = try item.select(".reply_content").text()
 
                 guard let authorName = try item.select(#"[href~=^\/member\/.+]"#).first?.text(), let avatarURL = try URL(string: item.select(".avatar").attr("src")) else {
@@ -77,12 +112,12 @@ class TopicDetailFetcher: ObservableObject {
 
                 let postDate = try item.select(".ago").attr("title")
 
-                return Reply(id: index + 1, content: content, author: author, postDate: postDate)
+                return Reply(id: id, content: content, author: author, postDate: postDate)
             }
 
         DispatchQueue.main.async {
             withAnimation(.easeInOut) {
-                self.replies = replies
+                self.replies.append(contentsOf: replies)
             }
         }
     }

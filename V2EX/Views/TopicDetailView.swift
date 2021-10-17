@@ -32,6 +32,17 @@ struct TopicDetailView: View {
             numberOfReplies
 
             replies
+
+            if fetcher.hasNextPage {
+                Button {
+                    Task {
+                        await fetcher.fetchNextPage()
+                    }
+                } label: {
+                    Text("Load more")
+                        .padding()
+                }
+            }
         }
         .refreshable {
             // FIXME: ScrollView has no default implementation of .refreshable, maybe use List
