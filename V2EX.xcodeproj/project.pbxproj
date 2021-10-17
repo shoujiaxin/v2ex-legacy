@@ -22,6 +22,7 @@
 		29A988FE2719C9FF00E6685C /* Capsuled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A988FD2719C9FF00E6685C /* Capsuled.swift */; };
 		29A989012719D1D100E6685C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A989002719D1D100E6685C /* ContentView.swift */; };
 		29A98903271B078D00E6685C /* AttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A98902271B078D00E6685C /* AttributedTextView.swift */; };
+		29B9805A271C042F00E73157 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 29B98059271C042F00E73157 /* ActivityIndicatorView */; };
 		29D864D627131C9C00CE8DC6 /* V2EXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864D527131C9C00CE8DC6 /* V2EXApp.swift */; };
 		29D864D827131C9C00CE8DC6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D864D727131C9C00CE8DC6 /* MainView.swift */; };
 		29D864DA27131C9D00CE8DC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29D864D927131C9D00CE8DC6 /* Assets.xcassets */; };
@@ -97,6 +98,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				29A6BF9427187A2F009E3674 /* Kingfisher in Frameworks */,
+				29B9805A271C042F00E73157 /* ActivityIndicatorView in Frameworks */,
 				6B27645D2713D58300A67F53 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +272,7 @@
 			packageProductDependencies = (
 				6B27645C2713D58300A67F53 /* SwiftSoup */,
 				29A6BF9327187A2F009E3674 /* Kingfisher */,
+				29B98059271C042F00E73157 /* ActivityIndicatorView */,
 			);
 			productName = V2EX;
 			productReference = 29D864D227131C9C00CE8DC6 /* V2EX.app */;
@@ -347,6 +350,7 @@
 			packageReferences = (
 				6B27645B2713D58300A67F53 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				29A6BF9227187A2F009E3674 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				29B98058271C042F00E73157 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = 29D864D327131C9C00CE8DC6 /* Products */;
 			projectDirPath = "";
@@ -783,6 +787,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		29B98058271C042F00E73157 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		6B27645B2713D58300A67F53 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
@@ -798,6 +810,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 29A6BF9227187A2F009E3674 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		29B98059271C042F00E73157 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 29B98058271C042F00E73157 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 		6B27645C2713D58300A67F53 /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;

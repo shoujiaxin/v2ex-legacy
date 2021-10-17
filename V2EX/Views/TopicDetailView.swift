@@ -5,6 +5,7 @@
 //  Created by Jiaxin Shou on 2021/10/11.
 //
 
+import ActivityIndicatorView
 import SwiftUI
 
 struct TopicDetailView: View {
@@ -25,8 +26,10 @@ struct TopicDetailView: View {
                 ContentView(attributedText: content)
                     .padding()
             } else {
-                ProgressView()
+                ActivityIndicatorView(isVisible: .constant(true), type: .rotatingDots)
+                    .frame(width: indicatorSize, height: indicatorSize)
                     .padding()
+                    .foregroundColor(.accentColor)
             }
 
             numberOfReplies
@@ -121,6 +124,10 @@ struct TopicDetailView: View {
             Text(reply.content)
         }
     }
+
+    // MARK: - Constants
+
+    private let indicatorSize: CGFloat = 64
 }
 
 struct TopicDetailView_Previews: PreviewProvider {
