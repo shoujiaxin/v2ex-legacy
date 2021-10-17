@@ -53,7 +53,6 @@ class TabDetailFetcherTests: XCTestCase {
                 XCTAssertEqual(topic?.postDate, "2021-10-12 20:44:19 +08:00")
                 XCTAssertEqual(topic?.numberOfReplies, 25)
                 XCTAssertNil(topic?.content)
-                XCTAssertNil(topic?.attributedContent)
 
                 topicsExpectation.fulfill()
             }

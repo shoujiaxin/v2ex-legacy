@@ -10,7 +10,7 @@ import Foundation
 struct Reply: Identifiable {
     let id: Int
 
-    let content: String
+    let content: NSAttributedString?
 
     let author: Author
 

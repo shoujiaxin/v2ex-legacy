@@ -45,14 +45,8 @@ class TopicDetailFetcherTests: XCTestCase {
 
         let topicsExpectation = expectation(description: "TopicDetailFetcherTests.testFetch.topics")
         fetcher.$topic
-            .collect(2)
-            .sink { topics in
-                XCTAssertNotNil(topics.first)
-                XCTAssertNil(topics.first?.content)
-                XCTAssertNil(topics.first?.attributedContent)
-
-                XCTAssertNotNil(topics.last?.content)
-                XCTAssertNotNil(topics.last?.attributedContent)
+            .sink { topic in
+                XCTAssertNotNil(topic.content)
 
                 topicsExpectation.fulfill()
             }
@@ -60,15 +54,13 @@ class TopicDetailFetcherTests: XCTestCase {
 
         let repliesExpectation = expectation(description: "TopicDetailFetcherTests.testFetch.replies")
         fetcher.$replies
-            .collect(2)
-            .sink { repliesArray in
-                XCTAssertEqual(repliesArray.first?.count, 0)
-                XCTAssertEqual(repliesArray.last?.count, 31)
+            .sink { replies in
+                XCTAssertEqual(replies.count, 31)
 
-                let reply = repliesArray.last?.first
+                let reply = replies.first
                 XCTAssertNotNil(reply)
                 XCTAssertEqual(reply?.id, 1)
-                XCTAssertEqual(reply?.content, "官网有对比功能。动动手买东西就 ok")
+                XCTAssertEqual(reply?.content?.string, "官网有对比功能。动动手买东西就 ok")
                 XCTAssertEqual(reply?.author.name, "youngpier")
                 XCTAssertEqual(reply?.author.avatarURL.absoluteString, "https://cdn.v2ex.com/avatar/5de1/e08f/301322_large.png?m=1537970469")
                 XCTAssertEqual(reply?.postDate, "2020-09-16 02:37:46 +08:00")

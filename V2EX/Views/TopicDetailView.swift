@@ -22,7 +22,7 @@ struct TopicDetailView: View {
             ContentInfoRow(author: fetcher.topic.author, date: fetcher.topic.postDate)
                 .padding(.horizontal)
 
-            if let content = fetcher.topic.attributedContent {
+            if let content = fetcher.topic.content {
                 ContentView(attributedText: content)
                     .padding()
             } else {
@@ -120,8 +120,9 @@ struct TopicDetailView: View {
                     .capsuled()
             }
 
-            // TODO: Display rich text & image
-            Text(reply.content)
+            if let content = reply.content {
+                ContentView(attributedText: content)
+            }
         }
     }
 

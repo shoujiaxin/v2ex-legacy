@@ -87,7 +87,7 @@ class TopicDetailFetcher: ObservableObject {
 
         DispatchQueue.main.async {
             withAnimation(.easeInOut) {
-                self.topic.content = contentHTML
+                self.topic.content = NSAttributedString(contentHTML)
             }
         }
     }
@@ -103,7 +103,7 @@ class TopicDetailFetcher: ObservableObject {
                     return nil
                 }
 
-                let content = try item.select(".reply_content").text()
+                let contentHTML = try item.select(".reply_content").html()
 
                 guard let authorName = try item.select(#"[href~=^\/member\/.+]"#).first?.text(), let avatarURL = try URL(string: item.select(".avatar").attr("src")) else {
                     return nil
@@ -112,7 +112,7 @@ class TopicDetailFetcher: ObservableObject {
 
                 let postDate = try item.select(".ago").attr("title")
 
-                return Reply(id: id, content: content, author: author, postDate: postDate)
+                return Reply(id: id, content: NSAttributedString(contentHTML), author: author, postDate: postDate)
             }
 
         DispatchQueue.main.async {

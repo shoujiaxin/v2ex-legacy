@@ -19,20 +19,25 @@ struct Topic: Identifiable {
 
     let numberOfReplies: Int
 
-    var content: String? = nil {
-        willSet {
-            attributedContent = newValue
-                .flatMap { $0.data(using: .unicode) }
-                .flatMap { try? NSMutableAttributedString(data: $0, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) }
-                .map { $0.updateFont(.preferredFont(forTextStyle: .body), color: UIColor(.primary)) }
-        }
-    }
+    var content: NSAttributedString? = nil
+}
 
-    var attributedContent: NSAttributedString? = nil
+extension NSAttributedString {
+    convenience init?(_ html: String) {
+        guard let data = html.data(using: .unicode),
+              let str = try? NSMutableAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+        else {
+            return nil
+        }
+
+        str.updateFont(.preferredFont(forTextStyle: .body), color: UIColor(.primary))
+
+        self.init(attributedString: str)
+    }
 }
 
 private extension NSMutableAttributedString {
-    func updateFont(_ font: UIFont, color: UIColor) -> Self {
+    func updateFont(_ font: UIFont, color: UIColor) {
         beginEditing()
         enumerateAttribute(.font, in: NSRange(location: 0, length: length)) { value, range, _ in
             guard let currentFont = value as? UIFont else {
@@ -49,6 +54,5 @@ private extension NSMutableAttributedString {
             addAttribute(.foregroundColor, value: color, range: range)
         }
         endEditing()
-        return self
     }
 }
