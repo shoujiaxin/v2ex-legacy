@@ -30,8 +30,8 @@ class TopicDetailFetcher: ObservableObject {
         components = URLComponents(url: Constants.topicBaseURL.appendingPathComponent(String(topic.id)), resolvingAgainstBaseURL: false)!
         components.queryItems = [URLQueryItem(name: "p", value: String(currentPage))]
 
-        Task {
-            await self.fetch()
+        Task { [weak self] in
+            await self?.fetch()
         }
     }
 
@@ -43,15 +43,15 @@ class TopicDetailFetcher: ObservableObject {
         do {
             let document = try await V2EXRequest.document(with: session, from: url)
             await withThrowingTaskGroup(of: Void.self) { group in
-                group.addTask {
-                    try self.parseContent(document)
+                group.addTask { [weak self] in
+                    try self?.parseContent(document)
                 }
-                group.addTask {
-                    try self.parseReplies(document)
+                group.addTask { [weak self] in
+                    try self?.parseReplies(document)
                 }
-                group.addTask {
+                group.addTask { [weak self] in
                     let maxPage = try (document?.select(".page_input").attr("max")).flatMap { Int($0) }
-                    self.numberOfPages = maxPage ?? 1
+                    self?.numberOfPages = maxPage ?? 1
                 }
             }
         } catch {
@@ -85,9 +85,9 @@ class TopicDetailFetcher: ObservableObject {
         let markdownBody = try contents.select(".markdown_body")
         let contentHTML = try markdownBody.first?.html() ?? contents.html()
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             withAnimation(.easeInOut) {
-                self.topic.content = NSAttributedString(contentHTML)
+                self?.topic.content = NSAttributedString(contentHTML)
             }
         }
     }
@@ -117,9 +117,9 @@ class TopicDetailFetcher: ObservableObject {
                 return Reply(id: id, content: NSAttributedString(contentHTML), author: author, postDate: postDate, numberOfLikes: numberOfLikes)
             }
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             withAnimation(.easeInOut) {
-                self.replies.append(contentsOf: replies)
+                self?.replies.append(contentsOf: replies)
             }
         }
     }

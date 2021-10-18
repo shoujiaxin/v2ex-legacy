@@ -19,8 +19,8 @@ class TabDetailFetcher: ObservableObject {
         components.queryItems = [URLQueryItem(name: "tab", value: topicTab)]
         url = components.url!
 
-        Task {
-            await self.fetch()
+        Task { [weak self] in
+            await self?.fetch()
         }
     }
 
@@ -44,9 +44,9 @@ class TabDetailFetcher: ObservableObject {
             try self?.parseTopicInfo(item)
         }
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             withAnimation(.easeInOut) {
-                self.topics = topics
+                self?.topics = topics
             }
         }
     }
